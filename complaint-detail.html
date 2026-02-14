@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>รายละเอียดเรื่องร้องเรียน</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Leaflet (สำหรับ modal ปักหมุด) -->
+  <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+
+  <link href="assets/css/app.css" rel="stylesheet">
+
+  <style>
+    #mapPicker { height: 420px; border-radius: 12px; }
+  </style>
+</head>
+<body>
+  <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar">
+      <div class="brand">
+        <div class="fw-bold">ศูนย์รับเรื่องร้องเรียน</div>
+        <div class="small text-secondary">หลังบ้านแอดมิน</div>
+      </div>
+      <nav class="p-3 d-grid gap-1">
+        <a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+        <a class="nav-link active" href="complaints.html"><i class="bi bi-inbox me-2"></i>เรื่องร้องเรียนทั้งหมด</a>
+        <a class="nav-link" href="areas.html"><i class="bi bi-geo me-2"></i>แยกตามพื้นที่</a>
+        <a class="nav-link" href="map.html"><i class="bi bi-map me-2"></i>แผนที่ร้องเรียน</a>
+        <a class="nav-link" href="settings.html"><i class="bi bi-gear me-2"></i>ตั้งค่า</a>
+        <hr class="border-secondary opacity-25">
+        <a class="nav-link" href="login.html"><i class="bi bi-box-arrow-right me-2"></i>ออกจากระบบ</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="container-fluid py-2 px-3 d-flex align-items-center gap-2">
+          <button id="btnSidebar" class="btn btn-outline-secondary d-lg-none"><i class="bi bi-list"></i></button>
+          <div class="fw-semibold">รายละเอียดเรื่อง #CR-000912</div>
+          <div class="ms-auto d-flex gap-2">
+            <a href="timeline.html" class="btn btn-outline-secondary">
+              <i class="bi bi-clock-history me-1"></i>Timeline
+            </a>
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#mapModal">
+              <i class="bi bi-geo-alt me-1"></i>ปักหมุด
+            </button>
+            <button class="btn btn-primary"><i class="bi bi-save me-1"></i>บันทึก</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="row g-3">
+          <!-- Left -->
+          <div class="col-12 col-xl-7">
+            <div class="card p-3">
+              <div class="d-flex align-items-start justify-content-between">
+                <div>
+                  <div class="fw-semibold fs-5">ไฟถนนดับบริเวณหน้าตลาด</div>
+                  <div class="text-muted small mt-1">
+                    พื้นที่: เทศบาลนครเชียงราย เขต 2 • ประเภท: ไฟ • วันที่รับเรื่อง: 14/02/2026
+                  </div>
+                </div>
+                <div class="text-end">
+                  <span class="badge text-bg-info">ตรวจสอบ</span>
+                  <div class="small text-muted mt-1">เร่งด่วน: ปกติ</div>
+                </div>
+              </div>
+
+              <hr>
+
+              <label class="form-label fw-semibold">รายละเอียด</label>
+              <textarea class="form-control" rows="5">ไฟถนนดับ 3 ต้นต่อเนื่อง ช่วงทางเข้า-ออกตลาด ทำให้เสี่ยงอุบัติเหตุ</textarea>
+
+              <div class="row g-2 mt-2">
+                <div class="col-12 col-md-6">
+                  <label class="form-label">พื้นที่</label>
+                  <select class="form-select">
+                    <option>เทศบาลนครเชียงราย เขต 2</option>
+                    <option>เทศบาลนครเชียงราย เขต 1</option>
+                    <option>เทศบาลนครเชียงราย เขต 3</option>
+                    <option>เทศบาลนครเชียงราย เขต 4</option>
+                    <option>ตำบลรอบเวียง</option>
+                    <option>ตำบลบ้านดู่</option>
+                    <option>ตำบลดอยฮาง</option>
+                    <option>ตำบลแม่ยาว</option>
+                    <option>ตำบลแม่กรณ์</option>
+                    <option>ตำบลริมกก</option>
+                    <option>ตำบลสันทราย</option>
+                    <option>ตำบลห้วยชมภู</option>
+                    <option>ตำบลป่าอ้อดอนชัย</option>
+                    <option>ตำบลท่าสาย</option>
+                  </select>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label">ประเภทเรื่อง</label>
+                  <select class="form-select">
+                    <option>ไฟ</option>
+                    <option>ถนน</option>
+                    <option>น้ำ</option>
+                    <option>สาธารณสุข</option>
+                    <option>ความปลอดภัย</option>
+                    <option>อื่นๆ</option>
+                  </select>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label">ที่อยู่/จุดสังเกต</label>
+                  <input class="form-control" value="หน้าตลาด... ถนน... ซอย...">
+                </div>
+
+                <!-- ✅ เพิ่มช่อง lat/lng (กรอกเองได้) -->
+                <div class="col-12 col-md-4">
+                  <label class="form-label">Latitude</label>
+                  <input
+                    type="number"
+                    step="0.000001"
+                    min="-90"
+                    max="90"
+                    class="form-control"
+                    id="lat"
+                    name="lat"
+                    placeholder="เช่น 19.910600"
+                  >
+                </div>
+
+                <div class="col-12 col-md-4">
+                  <label class="form-label">Longitude</label>
+                  <input
+                    type="number"
+                    step="0.000001"
+                    min="-180"
+                    max="180"
+                    class="form-control"
+                    id="lng"
+                    name="lng"
+                    placeholder="เช่น 99.840600"
+                  >
+                </div>
+
+                <div class="col-12 col-md-4 d-flex align-items-end gap-2">
+                  <button type="button" class="btn btn-outline-primary w-100"
+                    data-bs-toggle="modal" data-bs-target="#mapModal">
+                    <i class="bi bi-pin-map me-1"></i>ปักหมุดจากแผนที่
+                  </button>
+                </div>
+
+                <!-- ตัวช่วยลิงก์ไป map.html พร้อมพิกัด -->
+                <div class="col-12">
+                  <div class="small text-muted">
+                    * กรอกเองได้ หรือกด “ปักหมุดจากแผนที่”
+                    <span class="ms-2">
+                      <a href="#" id="openMapPage" class="text-decoration-none">เปิดหน้าแผนที่ด้วยพิกัดนี้</a>
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card p-3 mt-3">
+              <div class="fw-semibold">ไฟล์แนบ</div>
+              <div class="text-muted small">* ต้นแบบ: แสดงรูป/ไฟล์ที่อัปโหลด</div>
+              <div class="mt-2 d-flex gap-2 flex-wrap">
+                <div class="border rounded-4 p-2 bg-light" style="width:140px;height:90px;"></div>
+                <div class="border rounded-4 p-2 bg-light" style="width:140px;height:90px;"></div>
+                <button class="btn btn-sm btn-outline-primary align-self-start">
+                  <i class="bi bi-upload me-1"></i> เพิ่มไฟล์
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right -->
+          <div class="col-12 col-xl-5">
+            <div class="card p-3">
+              <div class="fw-semibold">การทำงาน</div>
+              <div class="d-grid gap-2 mt-2">
+                <a href="timeline.html" class="btn btn-outline-secondary">
+                  <i class="bi bi-arrow-repeat me-1"></i> อัปเดตสถานะ / Timeline
+                </a>
+
+                <!-- ไป map.html -->
+                <a href="map.html" class="btn btn-outline-secondary">
+                  <i class="bi bi-pin-map me-1"></i> ดูบนแผนที่
+                </a>
+
+                <button class="btn btn-outline-danger">
+                  <i class="bi bi-x-circle me-1"></i> ปิดเรื่อง (ต้องใส่ผลลัพธ์)
+                </button>
+              </div>
+            </div>
+
+            <div class="card p-3 mt-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="fw-semibold">Timeline ล่าสุด</div>
+                <a href="timeline.html" class="small text-decoration-none">ดูทั้งหมด</a>
+              </div>
+              <div class="mt-3">
+                <div class="border rounded-4 p-2 mb-2">
+                  <div class="d-flex justify-content-between">
+                    <span class="badge text-bg-primary">รับเรื่อง</span>
+                    <span class="small text-muted">14/02 10:05</span>
+                  </div>
+                  <div class="small mt-1">บันทึกเรื่องเข้าระบบ</div>
+                </div>
+                <div class="border rounded-4 p-2">
+                  <div class="d-flex justify-content-between">
+                    <span class="badge text-bg-info">ตรวจสอบ</span>
+                    <span class="small text-muted">14/02 14:10</span>
+                  </div>
+                  <div class="small mt-1">มอบหมายทีมลงพื้นที่ตรวจสอบ</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ✅ Modal เลือกพิกัดจากแผนที่ -->
+  <div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">ปักหมุดตำแหน่งร้องเรียน</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div id="mapPicker"></div>
+          <div class="small text-muted mt-2">
+            * คลิกบนแผนที่เพื่อเลือกตำแหน่ง (ระบบจะกรอก Latitude/Longitude ให้)
+          </div>
+
+          <div class="row g-2 mt-2">
+            <div class="col-6">
+              <div class="small text-muted">Lat (preview)</div>
+              <div class="fw-semibold" id="latPreview">-</div>
+            </div>
+            <div class="col-6">
+              <div class="small text-muted">Lng (preview)</div>
+              <div class="fw-semibold" id="lngPreview">-</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // ===== Helpers =====
+    function getLatLngFromInputs() {
+      const lat = parseFloat(document.getElementById('lat').value);
+      const lng = parseFloat(document.getElementById('lng').value);
+      if (Number.isFinite(lat) && Number.isFinite(lng)) return {lat, lng};
+      return null;
+    }
+
+    function setLatLngToInputs(lat, lng) {
+      document.getElementById('lat').value = Number(lat).toFixed(6);
+      document.getElementById('lng').value = Number(lng).toFixed(6);
+      document.getElementById('latPreview').textContent = Number(lat).toFixed(6);
+      document.getElementById('lngPreview').textContent = Number(lng).toFixed(6);
+      updateOpenMapLink();
+    }
+
+    function updateOpenMapLink() {
+      const v = getLatLngFromInputs();
+      const a = document.getElementById('openMapPage');
+      if (!v) {
+        a.href = "map.html";
+        a.textContent = "เปิดหน้าแผนที่";
+        return;
+      }
+      a.href = `map.html?lat=${encodeURIComponent(v.lat)}&lng=${encodeURIComponent(v.lng)}&z=16`;
+      a.textContent = "เปิดหน้าแผนที่ด้วยพิกัดนี้";
+    }
+
+    // update link when manual input changes
+    document.getElementById('lat').addEventListener('input', updateOpenMapLink);
+    document.getElementById('lng').addEventListener('input', updateOpenMapLink);
+    updateOpenMapLink();
+
+    // ===== Leaflet Map Picker =====
+    let mapPicker, pickerMarker;
+
+    document.getElementById('mapModal').addEventListener('shown.bs.modal', function () {
+      // default center = Chiang Rai
+      const defaultCenter = [19.9106, 99.8406];
+      const initial = getLatLngFromInputs();
+      const center = initial ? [initial.lat, initial.lng] : defaultCenter;
+      const zoom = initial ? 16 : 13;
+
+      if (!mapPicker) {
+        mapPicker = L.map('mapPicker').setView(center, zoom);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap'
+        }).addTo(mapPicker);
+
+        mapPicker.on('click', function (e) {
+          const lat = e.latlng.lat;
+          const lng = e.latlng.lng;
+
+          if (pickerMarker) {
+            pickerMarker.setLatLng(e.latlng);
+          } else {
+            pickerMarker = L.marker(e.latlng).addTo(mapPicker);
+          }
+          setLatLngToInputs(lat, lng);
+        });
+      } else {
+        mapPicker.setView(center, zoom);
+      }
+
+      // put marker if lat/lng exists
+      if (initial) {
+        const ll = L.latLng(initial.lat, initial.lng);
+        if (pickerMarker) pickerMarker.setLatLng(ll);
+        else pickerMarker = L.marker(ll).addTo(mapPicker);
+        document.getElementById('latPreview').textContent = initial.lat.toFixed(6);
+        document.getElementById('lngPreview').textContent = initial.lng.toFixed(6);
+      } else {
+        document.getElementById('latPreview').textContent = "-";
+        document.getElementById('lngPreview').textContent = "-";
+      }
+
+      // fix size in modal
+      setTimeout(() => mapPicker.invalidateSize(), 200);
+    });
+  </script>
+</body>
+</html>

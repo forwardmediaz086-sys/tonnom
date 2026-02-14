@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>เรื่องร้องเรียนทั้งหมด</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/app.css" rel="stylesheet">
+</head>
+<body>
+  <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar">
+      <div class="brand">
+        <div class="fw-bold">ศูนย์รับเรื่องร้องเรียน</div>
+        <div class="small text-secondary">หลังบ้านแอดมิน</div>
+      </div>
+      <nav class="p-3 d-grid gap-1">
+        <a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+        <a class="nav-link active" href="complaints.html"><i class="bi bi-inbox me-2"></i>เรื่องร้องเรียนทั้งหมด</a>
+        <a class="nav-link" href="areas.html"><i class="bi bi-geo me-2"></i>แยกตามพื้นที่</a>
+        <a class="nav-link" href="map.html"><i class="bi bi-map me-2"></i>แผนที่ร้องเรียน</a>
+        <a class="nav-link" href="settings.html"><i class="bi bi-gear me-2"></i>ตั้งค่า</a>
+        <hr class="border-secondary opacity-25">
+        <a class="nav-link" href="login.html"><i class="bi bi-box-arrow-right me-2"></i>ออกจากระบบ</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="container-fluid py-2 px-3 d-flex align-items-center gap-2">
+          <button id="btnSidebar" class="btn btn-outline-secondary d-lg-none"><i class="bi bi-list"></i></button>
+          <div class="fw-semibold">เรื่องร้องเรียนทั้งหมด</div>
+          <div class="ms-auto d-flex gap-2">
+            <a href="complaint-detail.html" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>เพิ่มเรื่อง</a>
+            <button class="btn btn-outline-secondary"><i class="bi bi-download me-1"></i>Export</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="card p-3">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="fw-semibold">ค้นหา / กรอง</div>
+            <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filters">
+              <i class="bi bi-funnel"></i> เปิด/ปิด
+            </button>
+          </div>
+
+          <div id="filters" class="collapse show mt-3">
+            <div class="row g-2">
+              <div class="col-12 col-md-4">
+                <input class="form-control" placeholder="ค้นหาเลขที่เรื่อง/หัวข้อ/คำค้น...">
+              </div>
+              <div class="col-6 col-md-2">
+                <select class="form-select">
+                  <option>พื้นที่ทั้งหมด</option>
+                  <option>ตำบลบ้านดู่</option>
+                  <option>ตำบลดอยฮาง</option>
+                  <option>ตำบลแม่ยาว</option>
+                  <option>ตำบลแม่กรณ์</option>
+                  <option>ตำบลรอบเวียง</option>
+                  <option>ตำบลริมกก</option>
+                  <option>ตำบลสันทราย</option>
+                  <option>ตำบลห้วยชมภู</option>
+                  <option>ตำบลป่าอ้อดอนชัย</option>
+                  <option>ตำบลท่าสาย</option>
+                  <option>เทศบาลนครเชียงราย เขต 1</option>
+                  <option>เทศบาลนครเชียงราย เขต 2</option>
+                  <option>เทศบาลนครเชียงราย เขต 3</option>
+                  <option>เทศบาลนครเชียงราย เขต 4</option>
+                </select>
+              </div>
+              <div class="col-6 col-md-2">
+                <select class="form-select">
+                  <option>สถานะทั้งหมด</option>
+                  <option>รับเรื่อง</option>
+                  <option>ตรวจสอบ</option>
+                  <option>ประสานงาน</option>
+                  <option>ดำเนินการ</option>
+                  <option>รอข้อมูลเพิ่ม</option>
+                  <option>ปิดเรื่อง</option>
+                  <option>ยกเลิก</option>
+                </select>
+              </div>
+              <div class="col-6 col-md-2">
+                <select class="form-select">
+                  <option>ประเภททั้งหมด</option>
+                  <option>ถนน</option>
+                  <option>น้ำ</option>
+                  <option>ไฟ</option>
+                  <option>สาธารณสุข</option>
+                  <option>ความปลอดภัย</option>
+                  <option>อื่นๆ</option>
+                </select>
+              </div>
+              <div class="col-6 col-md-2">
+                <select class="form-select">
+                  <option>ความเร่งด่วน</option>
+                  <option>ปกติ</option>
+                  <option>ด่วน</option>
+                  <option>ด่วนมาก</option>
+                </select>
+              </div>
+              <div class="col-12 d-flex gap-2 mt-1">
+                <button class="btn btn-primary"><i class="bi bi-search me-1"></i>ค้นหา</button>
+                <button class="btn btn-outline-secondary">ล้างค่า</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-3 mt-3">
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <thead>
+                <tr>
+                  <th>เลขที่เรื่อง</th>
+                  <th>วันที่</th>
+                  <th>พื้นที่</th>
+                  <th>หัวข้อ</th>
+                  <th>สถานะ</th>
+                  <th>เร่งด่วน</th>
+                  <th>อัปเดตล่าสุด</th>
+                  <th class="text-end">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#CR-000912</td>
+                  <td>14/02/2026</td>
+                  <td>เทศบาลนคร เขต 2</td>
+                  <td>ไฟถนนดับ</td>
+                  <td><span class="badge text-bg-info">ตรวจสอบ</span></td>
+                  <td><span class="badge text-bg-secondary">ปกติ</span></td>
+                  <td>14:10 • staff1</td>
+                  <td class="text-end">
+                    <a class="btn btn-sm btn-outline-primary" href="complaint-detail.html">ดู</a>
+                    <a class="btn btn-sm btn-outline-secondary" href="timeline.html">สถานะ</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#CR-000911</td>
+                  <td>14/02/2026</td>
+                  <td>แม่ยาว</td>
+                  <td>น้ำประปาไม่ไหล</td>
+                  <td><span class="badge text-bg-warning">ประสานงาน</span></td>
+                  <td><span class="badge text-bg-warning">ด่วน</span></td>
+                  <td>13:40 • admin</td>
+                  <td class="text-end">
+                    <a class="btn btn-sm btn-outline-primary" href="complaint-detail.html">ดู</a>
+                    <a class="btn btn-sm btn-outline-secondary" href="timeline.html">สถานะ</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted small">แสดง 1–2 จาก 1248 รายการ</div>
+            <nav>
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled"><a class="page-link" href="#">ก่อนหน้า</a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">ถัดไป</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
